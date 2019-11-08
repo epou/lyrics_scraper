@@ -6,12 +6,17 @@ from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 from bs4.element import Comment
 import re
+from random import randint
+import time
 
 import datetime
 
 from .exceptions import ArtistNotFound, SongNotFound
 from .utils import is_url, clean_text
 from .models import Song, Artist, Album
+
+max_delay_time_request = 20
+min_delay_time_request = 0
 
 class Base(ABC):
 
@@ -43,6 +48,10 @@ class Base(ABC):
 
     @classmethod
     def _do_request(cls, url):
+        # TODO: Make this class variables.
+        rndint = randint(min_delay_time_request, max_delay_time_request)
+        print("({}) sleep: for {} seconds".format(datetime.datetime.utcnow(),rndint))
+        time.sleep(rndint)
         headers = {'User-Agent': UserAgent().random}
         return r.get(url=url, headers=headers)
 
