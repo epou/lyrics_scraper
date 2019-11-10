@@ -109,15 +109,19 @@ class BaseSearchScraper(BaseScraper):
     @classmethod
     def result_is_empty(cls, soup, raise_if_empty=False):
         result = True if soup.body.find("div", {"class": "alert"}) else False
-        if raise_if_empty and not result:
+        if raise_if_empty and result:
             raise cls.EXCEPTION_EMPTY_RESULTS() from None
         return result
 
     def run_custom(self, soup, *args, **kwargs):
         plain_scraper = self.RESULT_PAGE_SCRAPER()
         return tuple(
-            [plain_scraper(tag.get('href')) for tag in soup.body.find("div", {"class": "panel"}).find_all("a")]
-        ) if not self.result_is_empty(soup) else []
+            [
+                plain_scraper(tag.get('href')) for tag in soup.body.find("div", {"class": "panel"}).find_all(
+                    lambda tag: tag.name == "a" and not tag.get('class')
+                )
+            ]
+        ) if not self.result_is_empty(soup, *args, **kwargs) else []
 
     @classmethod
     @abstractmethod
