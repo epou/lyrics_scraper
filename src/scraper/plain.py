@@ -4,7 +4,7 @@ from urllib import parse
 # Custom imports
 from src.models import Album, Artist, Song
 from src.scraper.base import BaseScraper
-from src.scraper.exceptions import ArtistNotFound, SongNotFound
+from src.scraper.exceptions import ArtistNotFound, SongNotFound, LetterNotFound
 from src.utils import clean_text
 
 
@@ -72,7 +72,7 @@ class SongScraper(BaseScraper):
         )
 
     def __init__(self, url_or_name, artist_name=None):
-        init_args = url_or_name if not artist_name else tuple((url_or_name, artist_name))
+        init_args = url_or_name if not artist_name else (url_or_name, artist_name)
         super(SongScraper, self).__init__(url_or_name=init_args)
 
     def run_custom(self, soup, search_album=True, *args, **kwargs):
@@ -141,3 +141,25 @@ class AlbumScraper(ArtistScraper):
     def run_custom(self, soup, *args, **kwargs):
         result = super().run_custom(soup, self.album_id).albums
         return result[0] if result else None
+
+
+class LetterScraper(BaseScraper):
+    @classmethod
+    def EXCEPTION_NOT_FOUND(cls):
+        return LetterNotFound
+
+    @classmethod
+    def build_url_path(cls, letter, *args, **kwargs):
+        return "{}.html".format(letter)
+
+    def run_custom(self, soup, *args, **kwargs):
+        return [
+            ArtistScraper(
+                parse.urljoin(
+                    self.BASE_PAGE_URL,
+                    x.get('href')
+                )
+            ) for x in soup.body.find("div", {"class": "artist-col"}).find_all(
+                lambda tag: tag.name == "a" and not tag.get('class')
+            )
+        ]

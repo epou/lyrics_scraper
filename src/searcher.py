@@ -1,4 +1,5 @@
 from src.scraper.search import ArtistSearcherScraper, AlbumSearcherScraper, SongSearcherScraper
+from src.scraper.plain import LetterScraper
 
 
 def __get_right_scraper(name, search_type, exact_search):
@@ -8,6 +9,8 @@ def __get_right_scraper(name, search_type, exact_search):
         scraper = AlbumSearcherScraper
     elif search_type == "song":
         scraper = SongSearcherScraper
+    elif search_type == "letter":
+        scraper = LetterScraper
     else:
         raise ValueError("Search by {} not available".format(search_type))
 
@@ -41,4 +44,16 @@ def get_scraper_by_song(name, exact_search=False):
         name=name,
         search_type="song",
         exact_search=exact_search
+    )
+
+
+def get_scraper_by_letter(letter):
+    if not isinstance(letter, str):
+        raise AttributeError("Letter must be a string")
+    if len(letter) > 1:
+        raise ValueError("Letter must be a single character.")
+    return __get_right_scraper(
+        name=letter,
+        search_type="letter",
+        exact_search=False
     )

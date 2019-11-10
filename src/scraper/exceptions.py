@@ -10,6 +10,10 @@ class SongNotFound(NotFound):
     pass
 
 
+class LetterNotFound(NotFound):
+    pass
+
+
 class SearchScraperError(Exception):
     pass
 
