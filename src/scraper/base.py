@@ -1,16 +1,14 @@
 from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 from bs4.element import Comment
-from fake_useragent import UserAgent
-from random import randint
 import requests as r
 from requests.exceptions import HTTPError
-import time
 from urllib import parse
 
 # Custom imports
 from src.utils import is_url
 from src.scraper.exceptions import SearchScraperError
+from src.scraper.requester import Requester
 
 max_delay_time_request = 20
 min_delay_time_request = 0
@@ -41,14 +39,7 @@ class BaseScraper(ABC):
 
     @classmethod
     def _do_request(cls, url, instant=False, *args, **kwargs):
-        if not instant:
-            # Wait a random time to avoid being banned
-            rndint = randint(min_delay_time_request, max_delay_time_request)
-            time.sleep(rndint)
-
-        # Set a random Useragnet.
-        headers = {'User-Agent': UserAgent().random}
-        return r.get(url=url, headers=headers)
+        return Requester.get(url=url, instant=instant)
 
     @classmethod
     def _get_bs4(cls, url, features='html.parser', *args, **kwargs):
