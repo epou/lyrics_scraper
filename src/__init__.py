@@ -1,0 +1,2 @@
+from src.scraper import min_delay_time_request, max_delay_time_request
+from src.searcher import get_scraper_by_album, get_scraper_by_artist, get_scraper_by_song
