@@ -3,12 +3,11 @@ from functools import reduce
 
 class Song(object):
 
-    album = None
-
     def __init__(self, name, genre, lyrics):
         self.name = name
         self.genre = genre
         self.lyrics = lyrics
+        self.album = None
 
     @property
     def artist(self):
@@ -23,14 +22,12 @@ class Song(object):
 
 class Album(object):
 
-    __songs = []
-
-    artist = None
-
     def __init__(self, name, year, category):
         self.name = name
         self.year = year
         self.category = category
+        self.__songs = []
+        self.artist = None
 
     @property
     def songs(self):
@@ -48,10 +45,10 @@ class Album(object):
 
 
 class Artist(object):
-    __albums = []
 
     def __init__(self, name):
         self.name = name
+        self.__albums = []
 
     @property
     def albums(self):
