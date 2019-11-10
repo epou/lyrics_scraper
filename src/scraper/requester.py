@@ -4,7 +4,7 @@ import requests as r
 import time
 
 max_delay_time_request = 15
-min_delay_time_request = 5
+min_delay_time_request = 7
 batch_requests = 4
 
 
