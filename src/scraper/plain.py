@@ -39,10 +39,8 @@ class ArtistScraper(BaseScraper):
                 category=category
             )
             artist.add_album(current_album)
-            print("album: ", current_album.name)
             for sibling in album.next_siblings:
                 if sibling.name == "a":
-                    print("a", sibling)
                     current_album.add_song(
                         SongScraper(
                             parse.urljoin(
@@ -52,7 +50,6 @@ class ArtistScraper(BaseScraper):
                         ).run(search_album=False)
                     )
                 elif sibling.name == "div":
-                    print("div", sibling)
                     # next album
                     break
 
@@ -130,7 +127,7 @@ class AlbumScraper(ArtistScraper):
             #contents_cleaned = [x.replace("\n", "").replace("\r", "").strip() for x in contents]
 
             name = contents[1].text.replace('"', '').strip() if len(contents) > 1 else None
-            year = contents[2].strip("()").strip() if len(contents) > 2 else None
+            year = contents[2].strip().strip("()").strip() if len(contents) > 2 else None
             category = contents[0].replace("\n", "").replace("\r", "").strip().split(":")[0]
             return name, year, category
         return None, None, None
