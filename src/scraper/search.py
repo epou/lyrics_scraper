@@ -5,6 +5,7 @@ from src.scraper.exceptions import AlbumSearchEmptyResults, ArtistSearchEmptyRes
 
 
 class ArtistSearcherScraper(BaseSearchScraper):
+    """This class defines how an scraper (in search.azlyrics.com) must act given an artist name."""
 
     @classmethod
     def RESULT_PAGE_SCRAPER(cls):
@@ -20,6 +21,8 @@ class ArtistSearcherScraper(BaseSearchScraper):
 
 
 class AlbumSearcherScraper(BaseSearchScraper):
+    """This class defines how an scraper (in search.azlyrics.com) must act given an album name."""
+
     @classmethod
     def RESULT_PAGE_SCRAPER(cls):
         return AlbumScraper
@@ -34,6 +37,8 @@ class AlbumSearcherScraper(BaseSearchScraper):
 
 
 class SongSearcherScraper(BaseSearchScraper):
+    """This class defines how an scraper (in search.azlyrics.com) must act given a song name."""
+
     @classmethod
     def RESULT_PAGE_SCRAPER(cls):
         return SongScraper
