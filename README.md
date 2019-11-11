@@ -50,6 +50,8 @@ optional arguments:
                         Set how to search by parameter.
   --search SEARCH, -s SEARCH
                         Search the following string.
+  --batch_size BATCH_SIZE
+                        Set the request batch size.
 ```
 
 ### Example
