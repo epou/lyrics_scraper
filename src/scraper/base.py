@@ -10,9 +10,6 @@ from src.utils import is_url
 from src.scraper.exceptions import SearchScraperError
 from src.scraper.requester import Requester
 
-max_delay_time_request = 20
-min_delay_time_request = 0
-
 
 class BaseScraper(ABC):
     ALLOWED_ITERABLE_INPUT = (list, tuple)

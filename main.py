@@ -2,6 +2,7 @@ import argparse
 
 from src import to_csv
 from src import get_searcher, AVAILABLE_SEARCHERS
+from src.scraper import requester
 
 
 def get_parser():
@@ -33,11 +34,20 @@ def get_parser():
         help="Search the following string."
     )
 
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        dest="batch_size",
+        help="Set the request batch size."
+    )
+
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = get_parser()
+    if args.batch_size:
+        requester.batch_requests = args.batch_size
 
     searcher = get_searcher(name=args.search_by)
     for result in searcher(args.search):
