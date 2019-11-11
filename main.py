@@ -6,6 +6,7 @@ from src.scraper import requester
 
 
 def get_parser():
+    """Parse the input arguments"""
     parser = argparse.ArgumentParser(description="Scrap azlyrics page")
 
     parser.add_argument(
