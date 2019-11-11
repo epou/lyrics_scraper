@@ -51,7 +51,7 @@ class BaseScraper(ABC):
         cls._check_response(response=response)
         # Generate a BeautifulSoup object
         soup = BeautifulSoup(
-            markup=response.text,
+            markup=response.content.decode(encoding=response.apparent_encoding, errors='ignore'),
             features=features
         )
 
